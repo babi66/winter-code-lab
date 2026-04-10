@@ -1,13 +1,14 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 
+// HARDCODED CONFIG - This ensures Vercel sees the data
 const firebaseConfig = {
-  apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
-  authDomain: import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.PUBLIC_FIREBASE_APP_ID
+  apiKey: "AIzaSy...", // Ensure this is your ACTUAL API Key
+  authDomain: "winter-code-lab.firebaseapp.com",
+  projectId: "winter-code-lab",
+  storageBucket: "winter-code-lab.appspot.com",
+  messagingSenderId: "721...", // Ensure this is your ACTUAL ID
+  appId: "1:721..." // Ensure this is your ACTUAL App ID
 };
 
 // Initialize Firebase & Firestore
@@ -20,22 +21,27 @@ export async function registerStudent(studentData) {
   const studentID = studentData.fullName.toLowerCase().replace(/\s/g, '');
   const studentRef = doc(db, "students", studentID);
   
-  // 1. Check if they already exist
-  const docSnap = await getDoc(studentRef);
+  try {
+    // 1. Check if they already exist
+    const docSnap = await getDoc(studentRef);
 
-  if (docSnap.exists()) {
-    throw new Error("ALREADY_BOOKED");
+    if (docSnap.exists()) {
+      throw new Error("ALREADY_BOOKED");
+    }
+
+    // 2. Save new student
+    await setDoc(studentRef, {
+      fullName: studentData.fullName,
+      course: studentData.course,
+      grade: studentData.grade,
+      phone: studentData.phone,
+      paid: false, 
+      registeredAt: serverTimestamp() // Better than new Date() for Firebase
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error("Firebase Registration Error:", error);
+    throw error; 
   }
-
-  // 2. Save new student
-  await setDoc(studentRef, {
-    fullName: studentData.fullName,
-    course: studentData.course,
-    grade: studentData.grade,
-    phone: studentData.phone,
-    paid: false, // Secretary tracks this
-    registeredAt: new Date().toISOString()
-  });
-
-  return { success: true };
 }
