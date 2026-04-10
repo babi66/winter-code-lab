@@ -9,12 +9,12 @@ import {
 
 // HARDCODED CONFIG
 const firebaseConfig = {
-  apiKey: "AIzaSy...", 
-  authDomain: "winter-code-lab.firebaseapp.com",
-  projectId: "winter-code-lab",
-  storageBucket: "winter-code-lab.appspot.com",
-  messagingSenderId: "721...", 
-  appId: "1:721..." 
+  apiKey: "AIzaSy...", // Keep your real API key here
+  authDomain: "web-app-eb614.firebaseapp.com",
+  projectId: "web-app-eb614",
+  storageBucket: "web-app-eb614.appspot.com",
+  messagingSenderId: "721...", // Keep your real ID
+  appId: "1:721..." // Keep your real App ID
 };
 
 // Initialize Firebase
