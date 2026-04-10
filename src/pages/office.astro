@@ -1,0 +1,304 @@
+---
+// OFFICE TERMINAL - COMMAND CENTER 2026
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Office Management | Winter Code Lab</title>
+    
+    <style>
+        :root {
+            --bg: #020617;
+            --card: #0f172a;
+            --emerald: #10b981;
+            --border: #1e293b;
+            --red: #ef4444;
+        }
+
+        body {
+            background-color: var(--bg) !important;
+            color: white !important;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            margin: 0; padding: 0;
+            display: flex; flex-direction: column;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, p, label, div, td, th { color: white !important; }
+        .hidden { display: none !important; }
+
+        /* BRAND HEADER */
+        .brand-header {
+            text-align: center;
+            padding: 40px 0 20px 0;
+        }
+        .brand-name {
+            font-size: 12px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.5em;
+            color: var(--emerald) !important;
+        }
+
+        /* AUTH SECTION */
+        .auth-container { height: 80vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .auth-card { background: var(--card); border: 1px solid var(--border); padding: 50px; border-radius: 40px; width: 100%; max-width: 450px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+
+        /* ERROR MESSAGE */
+        #login-error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--red) !important;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            animation: shake 0.4s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* INPUTS & BUTTONS */
+        input, select { 
+            width: 100%; background: #020617 !important; border: 1px solid var(--border) !important; 
+            padding: 18px; border-radius: 14px; color: white !important; font-size: 14px; margin-bottom: 20px; box-sizing: border-box;
+            outline: none; transition: border 0.3s;
+        }
+        input:focus { border-color: var(--emerald) !important; }
+        ::placeholder { color: #475569 !important; opacity: 1; }
+
+        .btn { 
+            padding: 18px 30px; border-radius: 14px; font-weight: 900; text-transform: uppercase; 
+            letter-spacing: 1px; cursor: pointer; border: none; font-size: 12px; transition: 0.2s;
+        }
+        .btn-primary { background: var(--emerald); color: black !important; width: 100%; }
+        .btn-primary:hover { transform: translateY(-2px); filter: brightness(1.1); }
+        .btn-delete { background: rgba(239, 68, 68, 0.1); color: var(--red) !important; border: 1px solid rgba(239, 68, 68, 0.2); }
+
+        /* DASHBOARD LAYOUT */
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        
+        .action-bar { 
+            background: var(--card); border: 1px solid var(--border); padding: 30px; 
+            border-radius: 35px; margin-bottom: 40px; display: grid; grid-template-cols: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; align-items: end;
+        }
+
+        /* STATS */
+        .stats-row { display: grid; grid-template-cols: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .stat-box { background: var(--card); border: 1px solid var(--border); padding: 25px; border-radius: 25px; text-align: center; }
+        .stat-num { font-size: 32px; font-weight: 900; color: white !important; }
+        .stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #64748b !important; margin-top: 5px; }
+
+        /* TABLE */
+        .table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 35px; overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: rgba(255,255,255,0.03); padding: 20px; font-size: 10px; text-transform: uppercase; text-align: left; color: #64748b !important; }
+        td { padding: 20px; border-bottom: 1px solid var(--border); }
+
+        .id-badge { background: #1e293b; padding: 5px 10px; border-radius: 8px; font-family: monospace; font-size: 11px; color: var(--emerald) !important; border: 1px solid rgba(16, 185, 129, 0.2); }
+    </style>
+</head>
+<body>
+
+    <header class="brand-header">
+        <div class="brand-name">Winter Code Lab</div>
+    </header>
+
+    <div id="login-gate" class="auth-container">
+        <div class="auth-card">
+            <h2 style="font-size: 32px; font-weight: 900; margin-bottom: 8px; font-style: italic;">OFFICE ACCESS</h2>
+            <p style="color: #64748b !important; font-size: 13px; margin-bottom: 35px;">Enter credentials to manage the 2026 cohort.</p>
+            
+            <div id="login-error" class="hidden">Invalid Username or Password</div>
+
+            <input type="text" id="user" placeholder="Enter Staff Username">
+            <input type="password" id="pass" placeholder="Enter Secure Passkey">
+            
+            <button id="login-btn" class="btn btn-primary">Authorize Access</button>
+        </div>
+    </div>
+
+    <main id="dashboard" class="hidden">
+        <div class="container">
+            
+            <div class="stats-row">
+                <div class="stat-box">
+                    <div id="total-count" class="stat-num">0</div>
+                    <div class="stat-label">Total Registered</div>
+                </div>
+                <div class="stat-box">
+                    <div id="web-count" class="stat-num" style="color: var(--emerald) !important;">0</div>
+                    <div class="stat-label">Web Systems</div>
+                </div>
+                <div class="stat-box">
+                    <div id="ai-count" class="stat-num" style="color: #3b82f6 !important;">0</div>
+                    <div class="stat-label">AI Architecture</div>
+                </div>
+                <div class="stat-box">
+                    <div id="paid-count" class="stat-num">0</div>
+                    <div class="stat-label">Tuition Confirmed</div>
+                </div>
+            </div>
+
+            <div class="action-bar">
+                <div style="grid-column: 1 / -1;"><label style="font-size: 10px; font-weight: 900; text-transform: uppercase; color: var(--emerald) !important;">Manual Student Registration</label></div>
+                <input type="text" id="new-name" placeholder="Full Student Name" style="margin:0">
+                <input type="tel" id="new-phone" placeholder="Phone (e.g. +251...)" style="margin:0">
+                <select id="new-course" style="margin:0">
+                    <option value="web_dev">Web Development</option>
+                    <option value="python_ai">Python + AI</option>
+                </select>
+                <select id="new-grade" style="margin:0">
+                    <option value="9">Grade 9</option>
+                    <option value="10">Grade 10</option>
+                    <option value="11">Grade 11</option>
+                    <option value="12">Grade 12</option>
+                </select>
+                <button id="manual-add-btn" class="btn btn-primary" style="padding:18px">Add Student</button>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Lab Entrance ID</th>
+                            <th>Student Detail</th>
+                            <th>Status</th>
+                            <th>Payment</th>
+                            <th>Management</th>
+                        </tr>
+                    </thead>
+                    <tbody id="roster-body">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        import { db } from "../lib/firebase";
+        import { collection, onSnapshot, query, orderBy, doc, updateDoc, deleteDoc, addDoc, serverTimestamp } from "firebase/firestore";
+
+        const loginBtn = document.getElementById('login-btn');
+        const loginGate = document.getElementById('login-gate');
+        const dashboard = document.getElementById('dashboard');
+        const errorMsg = document.getElementById('login-error');
+
+        // FIXED LOGIN HANDLER
+        loginBtn.addEventListener('click', () => {
+            const u = document.getElementById('user').value;
+            const p = document.getElementById('pass').value;
+
+            if(u === "Elsitu1" && p === "elsa@3353") {
+                loginGate.style.display = 'none';
+                dashboard.classList.remove('hidden');
+                loadData();
+            } else {
+                errorMsg.classList.remove('hidden');
+                // Auto-hide error after 3 seconds
+                setTimeout(() => errorMsg.classList.add('hidden'), 3000);
+            }
+        });
+
+        // FIXED MANUAL ADD HANDLER
+        document.getElementById('manual-add-btn').addEventListener('click', async () => {
+            const name = document.getElementById('new-name').value;
+            const phone = document.getElementById('new-phone').value;
+            const course = document.getElementById('new-course').value;
+            const grade = document.getElementById('new-grade').value;
+
+            if(!name || !phone) {
+                alert("Please provide at least a name and phone number.");
+                return;
+            }
+
+            try {
+                await addDoc(collection(db, "students"), {
+                    fullName: name,
+                    phone: phone,
+                    course: course,
+                    grade: grade,
+                    paid: false,
+                    registeredAt: serverTimestamp()
+                });
+                // Reset fields
+                document.getElementById('new-name').value = "";
+                document.getElementById('new-phone').value = "";
+            } catch (e) {
+                console.error("Error adding student:", e);
+            }
+        });
+
+        function loadData() {
+            const q = query(collection(db, "students"), orderBy("registeredAt", "desc"));
+            onSnapshot(q, (snapshot) => {
+                const tbody = document.getElementById('roster-body');
+                tbody.innerHTML = "";
+                
+                let stats = { total: 0, web: 0, ai: 0, paid: 0 };
+                
+                snapshot.forEach((snap) => {
+                    const s = snap.data();
+                    const id = snap.id;
+                    stats.total++;
+                    if(s.course === 'web_dev') stats.web++; else stats.ai++;
+                    if(s.paid) stats.paid++;
+
+                    const entranceId = `W26-${id.substring(0,5).toUpperCase()}`;
+
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td><span class="id-badge">${entranceId}</span></td>
+                        <td>
+                            <div style="font-weight:900; font-size:16px; margin-bottom:2px;">${s.fullName}</div>
+                            <div style="font-size:11px; color:#64748b !important;">Grade ${s.grade} • ${s.phone}</div>
+                        </td>
+                        <td>
+                            <div style="font-size:10px; font-weight:900; color:var(--emerald);">${s.course === 'web_dev' ? 'WEB SYSTEMS' : 'AI ARCHITECTURE'}</div>
+                        </td>
+                        <td>
+                            <button class="pay-toggle btn" data-id="${id}" data-status="${s.paid}" 
+                                style="background:${s.paid ? 'var(--emerald)' : 'transparent'}; color:${s.paid ? 'black' : 'white'} !important; border:1px solid ${s.paid ? 'transparent' : 'var(--border)'}; padding:8px 15px; font-size:9px;">
+                                ${s.paid ? 'CONFIRMED' : 'PENDING'}
+                            </button>
+                        </td>
+                        <td>
+                            <button class="delete-btn btn btn-delete" data-id="${id}" style="padding:8px 15px; font-size:9px;">REMOVE</button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+                document.getElementById('total-count').innerText = stats.total;
+                document.getElementById('web-count').innerText = stats.web;
+                document.getElementById('ai-count').innerText = stats.ai;
+                document.getElementById('paid-count').innerText = stats.paid;
+
+                // Attach Table Event Listeners
+                document.querySelectorAll('.pay-toggle').forEach(btn => {
+                    btn.onclick = async () => {
+                        const current = btn.getAttribute('data-status') === 'true';
+                        await updateDoc(doc(db, "students", btn.getAttribute('data-id')), { paid: !current });
+                    };
+                });
+
+                document.querySelectorAll('.delete-btn').forEach(btn => {
+                    btn.onclick = async () => {
+                        if(confirm("Confirm removal of this record?")) {
+                            await deleteDoc(doc(db, "students", btn.getAttribute('data-id')));
+                        }
+                    };
+                });
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,362 @@
+@import "tailwindcss";
+
+/* --- GLOBAL LIGHT MODE BASE --- */
+.light {
+  background-color: #ffffff !important;
+}
+
+.light body, 
+.light section, 
+.light nav,
+.light footer {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+/* Fix for Typography visibility */
+.light h1, .light h2, .light h3, .light h4, .light p, .light span {
+  color: #0f172a !important;
+}
+#white{
+  color: #ffffff !important;
+}
+/* IDs for Curriculum Section Protection */
+#curriculum-title,
+#phase1-title,
+#phase2-title,
+#phase3-title {
+    color: #ffffff !important;
+}
+
+#curriculum-desc {
+    color: #94a3b8 !important; /* Light slate so it stays readable on dark blue */
+}
+
+/* Force the section background to stay deep blue in Light Mode */
+.light #curriculum {
+    background-color: #0f172a !important;
+}
+/* Protect the Main Title and the italic 'Evolution' span */
+#curriculum-main-title, 
+#curriculum-main-title span {
+    color: white !important; /* Forces 'A Three-Phase' to stay white */
+}
+
+#curriculum-main-title span.italic {
+    color: #64748b !important; /* Forces 'Evolution' to stay Slate-500 even in light mode */
+    font-style: italic;
+}
+
+/* Sidebar Fix */
+.light #sidebar > div:nth-child(2) {
+  background-color: #ffffff !important;
+  border-left: 1px solid #e2e8f0;
+}
+
+.light .mobile-link {
+  color: #0f172a !important;
+}
+
+/* --- CARDS & CONTAINERS --- */
+.light .bg-slate-900, 
+.light .bg-[#0f172a],
+.light .bg-slate-900\/30 {
+  background-color: #f8fcf8 !important; 
+  border: 1px solid #e2e8f0 !important;
+}
+
+/* Soften glows for Light Mode */
+.light .blur-\[140px\], 
+.light .blur-\[120px\], 
+.light .blur-\[100px\] {
+  opacity: 0.2 !important;
+}
+
+/* --- FORM SPECIFIC FIXES --- */
+
+/* 1. Labels & Inputs Visibility */
+.light label {
+  color: #475569 !important;
+  font-weight: 700;
+}
+
+.light input, 
+.light select, 
+.light textarea {
+  color: #0f172a !important; 
+  background-color: #ffffff !important; 
+  border: 1px solid #cbd5e1 !important;
+}
+
+.light input::placeholder {
+  color: #94a3b8 !important;
+}
+
+.light input:focus, 
+.light select:focus {
+  border-color: #10b981 !important;
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1) !important;
+}
+
+/* 2. THE SELECTED COURSE (Radio Cards) */
+/* This handles the glow and the darker text when selected */
+.light .peer-checked + div {
+  background-color: #ffffff !important;
+  border: 2px solid #10b981 !important;
+  /* Green Glow Effect */
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.25) !important;
+}
+
+.light .peer-checked + div h5 {
+  color: #065f46 !important; /* Darker green title */
+}
+
+.light .peer-checked + div p {
+  color: #059669 !important; /* Visible green subtext */
+}
+
+/* --- BUTTONS & INTERACTION --- */
+.light #theme-toggle {
+  background-color: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #64748b !important;
+}
+
+.light #theme-toggle:hover {
+  border-color: #10b981 !important;
+  color: #10b981 !important;
+}
+
+.light #submit-btn {
+  background-color: #059669 !important;
+  color: #ffffff !important; /* Ensure button text stays white */
+}
+
+.light #submit-btn:hover {
+  background-color: #047857 !important;
+  box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.4) !important;
+}
+
+.light a:hover {
+  color: #059669 !important;
+}
+/* --- SPECIFIC FIX FOR COURSE SUB-TEXTS --- */
+
+/* 1. DARK MODE (Default) */
+/* When the radio is checked, make the subtext bright white */
+.peer-checked + div .course-subtext {
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+/* 2. LIGHT MODE */
+/* When in light mode and checked, make it a deep readable green */
+.light .peer-checked + div .course-subtext {
+  color: #047857 !important; /* Forest Green */
+  opacity: 1 !important;
+}
+
+/* When in light mode but NOT checked, make it a dark gray */
+.light .course-subtext {
+  color: #64748b !important;
+}
+/* FAQ Light Mode Fixes */
+.light details {
+    background-color: #f8fafc !important; /* Soft light background */
+    border-color: #e2e8f0 !important;
+}
+
+.light details[open] {
+    background-color: #ffffff !important;
+    border-color: #10b981 !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05) !important;
+}
+
+.light summary {
+    color: #0f172a !important; /* Dark Slate text */
+}
+
+.light details p {
+    color: #475569 !important; /* Muted Slate for answers */
+    border-top-color: #e2e8f0 !important;
+}
+/* --- THE SHIELD: PROTECT DARK CARDS IN LIGHT MODE --- */
+
+/* 1. Force the background to stay deep blue */
+.light .keep-dark {
+    background-color: #0f172a !important;
+    border-color: #1e293b !important;
+}
+
+/* 2. Force the headers and text to stay white */
+.light .keep-dark h2,
+.light .keep-dark h5,
+.light .keep-dark p:not(.course-subtext) {
+    color: #ffffff !important;
+}
+
+/* 3. Force the labels to stay light slate */
+.light .keep-dark label {
+    color: #94a3b8 !important; /* Light Slate */
+}
+
+/* 4. Keep the Emerald labels glowing */
+.light .keep-dark label.text-emerald-600,
+.light .keep-dark label.text-emerald-500 {
+    color: #10b981 !important;
+}
+
+/* 5. Ensure inputs inside this card stay dark themed */
+.light .keep-dark input,
+.light .keep-dark select {
+    background-color: rgba(15, 23, 42, 0.6) !important;
+    color: white !important;
+    border-color: #1e293b !important;
+}
+/* --- CURRICULUM TAGS COLOR PROTECTION --- */
+
+/* 1. Prevent the text from turning dark slate */
+.light .curriculum-tags span {
+    color: unset !important; /* This allows the Tailwind text-emerald/cyan classes to work */
+}
+
+/* 2. Force the background to stay Dark Slate */
+.light .curriculum-tags span {
+    background-color: #1e293b !important; /* bg-slate-800 */
+}
+
+/* 3. Restore the specific colors for Light Mode */
+.light .curriculum-tags .text-emerald-400 { color: #34d399 !important; }
+.light .curriculum-tags .text-cyan-400 { color: #22d3ee !important; }
+.light .curriculum-tags .text-purple-400 { color: #c084fc !important; }
+
+/* 4. Add the Glow Effect for both modes */
+.curriculum-tags span {
+    text-shadow: 0 0 10px currentColor; /* Creates a subtle glow based on the text color */
+}
+/* --- HERO IMAGE ENHANCEMENTS --- */
+
+/* Fix background for the Hero Section */
+.light #hero-section {
+    background-color: #ffffff !important;
+}
+
+/* Ensure the floating card text behaves in Light Mode */
+.light .backdrop-blur-xl {
+    background-color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.light .backdrop-blur-xl code {
+    color: #059669 !important; /* Emerald 600 */
+}
+
+/* Specific Shadow for Light Mode Image */
+.light #hero-section .shadow-2xl {
+    box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Rotation Fix for Mobile (Remove tilt on small screens) */
+@media (max-width: 1024px) {
+    #hero-section .lg\:rotate-3 {
+        transform: rotate(0deg) !important;
+    }
+}
+/* --- GALLERY THEME OVERRIDES --- */
+
+.light #experience-gallery {
+    background-color: #f8fafc !important; /* Slate 50 */
+}
+
+.light #gallery-title {
+    color: #0f172a !important; /* Deep Navy */
+}
+
+/* Make images look sharper in Light Mode */
+.light #experience-gallery img {
+    filter: brightness(1) contrast(1.05);
+}
+/* --- INSTRUCTOR THEME OVERRIDES --- */
+
+.light #instructor-profile {
+    background-color: #ffffff !important;
+}
+
+.light #instructor-name {
+    color: #0f172a !important; /* Deep Navy */
+}
+
+.light #instructor-bio {
+    color: #475569 !important; /* Slate 600 */
+}
+
+/* Fix the Portfolio arrow button colors in Light Mode */
+.light .group:hover .group-hover\:text-white {
+    color: #ffffff !important;
+}
+/* --- TESTIMONY THEME OVERRIDES --- */
+
+.light #results-section {
+    background-color: #f8fafc !important; /* Slate 50 */
+}
+
+.light #testimony-title {
+    color: #0f172a !important;
+}
+
+/* Ensure stats stay dark/bold in Light Mode */
+.light #results-section .text-white {
+    color: #0f172a !important;
+}
+/* --- BIG TESTIMONY OVERRIDES --- */
+
+.light #student-name-1, 
+.light #student-name-2 {
+    color: #0f172a !important; /* Deep Navy */
+}
+
+/* Make the student photos really pop */
+#results-section img {
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#results-section .group:hover img {
+    transform: scale(1.05) rotate(-2deg);
+}
+/* Hide scrollbar but keep functionality */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Light mode overrides for Testimony */
+.light #testimony-title {
+    color: #0f172a !important;
+}
+
+.light .snap-center {
+    box-shadow: 0 20px 40px -15px rgba(0,0,0,0.05);
+}
+/* Celebration Mode Tweaks */
+#awards-program .rounded-\[3\.5rem\] {
+    box-shadow: 0 0 80px -20px rgba(6, 182, 212, 0.15); /* Soft Cyan glow */
+}
+
+.light #awards-program .bg-slate-950 {
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);
+}
+
+/* Smooth transition for stacked class images */
+#class-sessions img {
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+#class-sessions .relative:hover img:nth-child(1) {
+    transform: translateY(-20px) rotate(-2deg);
+}
+
+#class-sessions .relative:hover img:nth-child(2) {
+    transform: translateY(20px) rotate(2deg);
+}
