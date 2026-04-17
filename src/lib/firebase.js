@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { getAuth, signOut } from "firebase/auth"; 
 import { 
   initializeFirestore, 
   doc, 
@@ -9,28 +10,41 @@ import {
 
 // HARDCODED CONFIG
 const firebaseConfig = {
-  apiKey: "AIzaSy...", // Keep your real API key here
+  apiKey: "AIzaSy...", // Ensure your real key is here
   authDomain: "web-app-eb614.firebaseapp.com",
   projectId: "web-app-eb614",
   storageBucket: "web-app-eb614.appspot.com",
-  messagingSenderId: "721...", // Keep your real ID
-  appId: "1:721..." // Keep your real App ID
+  messagingSenderId: "721...", 
+  appId: "1:721..." 
 };
 
-// Initialize Firebase
+// 1. Initialize Firebase App (Only once!)
 const app = initializeApp(firebaseConfig);
 
-/**
- * FIX: experimentalForceLongPolling
- * This forces Firebase to use standard HTTPS requests instead of WebSockets.
- * This is the #1 fix for "Network Error" and "Empty Data" issues on 
- * mobile networks or restricted out-of-town Wi-Fi.
- */
+// 2. Initialize Auth
+export const auth = getAuth(app);
+
+// 3. Initialize Firestore with Long Polling fix
 export const db = initializeFirestore(app, {
   experimentalForceLongPolling: true,
 });
 
-// The Registration Function
+/**
+ * LOGOUT FUNCTION
+ */
+export async function logoutUser() {
+  try {
+    await signOut(auth);
+    window.location.href = "/office"; // Redirect to login page
+  } catch (error) {
+    console.error("Logout Error:", error);
+    alert("Error logging out. Please try again.");
+  }
+}
+
+/**
+ * REGISTRATION FUNCTION
+ */
 export async function registerStudent(studentData) {
   const studentID = studentData.fullName.toLowerCase().replace(/\s/g, '');
   const studentRef = doc(db, "students", studentID);
@@ -56,4 +70,4 @@ export async function registerStudent(studentData) {
     console.error("Firebase Registration Error:", error);
     throw error; 
   }
-                         }
+}
